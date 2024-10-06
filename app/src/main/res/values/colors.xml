@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+    <color name="black">#1F221F</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="dune">#D9CAB2</color>
+    <color name="khaki">#C7B9A1</color>
     <color name="principal">#647e8d</color>
-    <color name="good">#bcc8c1</color>
+    <color name="good">#6A6B5C</color>
     <color name="danger">#a63535</color>
-    <color name="warning">#eae662</color>
+    <color name="warning">#CFA368</color>
     <color name="dark_blue">#061f30</color>
     <color name="dark_gray">#25333d</color>
     <color name="gray">#566976</color>

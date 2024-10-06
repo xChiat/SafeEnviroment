@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ageTextView"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -24,177 +25,23 @@
     <ScrollView
         android:id="@+id/scrollView3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="633dp"
         android:layout_marginTop="?attr/actionBarSize"
         android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical" >
 
-            <!-- User Profile Section -->
-
-            <!-- Heart Rate Section -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="210dp"
-                android:background="@drawable/border"
-                android:elevation="4dp"
-                android:padding="16dp">
-
-                <ImageView
-                    android:id="@+id/avatar"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:contentDescription="@string/avatar"
-                    android:src="@drawable/ic_avatar" />
-
-                <LinearLayout
-                    android:layout_width="266dp"
-                    android:layout_height="130dp"
-                    android:layout_marginStart="17dp"
-                    android:layout_toEndOf="@id/avatar"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/nameTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Name: ..."
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/ageTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Age: ..."
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/emergencyNumberTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Número de emergencia: ..."
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/medicalInfoTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Info Médica: ..."
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/additionalInfoTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Familiares: ..."
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/more_info"
-                    android:layout_width="76dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginEnd="2dp"
-                    android:layout_marginBottom="2dp"
-                    android:backgroundTint="@color/principal"
-                    android:onClick="secondAct"
-                    android:text="Más"
-                    android:textColor="@color/white"
-                    android:textStyle="normal" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="185dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/border"
-                android:elevation="4dp"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/heartRateTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Pulso Cardíaco"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:contentDescription="@string/heartbeat"
-                    android:src="@drawable/ic_heartbeat" />
-            </RelativeLayout>
-
-            <!-- Environmental Readings Section -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/border"
-                android:orientation="horizontal">
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:elevation="4dp"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:id="@+id/temperatureTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Temperatura"
-                        android:textStyle="bold" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1"
-                    android:elevation="4dp"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:id="@+id/humidityTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Humedad"
-                        android:textStyle="bold" />
-                </RelativeLayout>
-            </LinearLayout>
-
-            <!-- Gas Leak Status Section -->
-            <TextView
-                android:id="@+id/gasStatusTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@color/good"
-                android:elevation="4dp"
-                android:padding="16dp"
-                android:text="No se han detectado fugas de gas en el hogar"
-                android:textColor="@color/dark_gray"
-                android:textStyle="bold" />
-
-            <!-- Monitoring Button -->
             <Button
+                android:id="@+id/button"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="16dp"
-                android:backgroundTint="@color/principal"
-                android:text="Monitoreo de actividad en el hogar →"
-                android:textColor="@android:color/white" />
+                android:layout_height="wrap_content"
+                android:text="Agregar Adulto Mayor"
+                android:drawableStart="@drawable/ic_avatar"
+                android:drawablePadding="8dp"
+                android:background="@drawable/button_background"/>
         </LinearLayout>
     </ScrollView>
 
