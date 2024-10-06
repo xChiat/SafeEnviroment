@@ -15,7 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/principal"
+            android:background="@color/good"
             android:textAlignment="center"
             app:navigationIcon="@drawable/ic_menu"
             app:title="@string/app_name" />
@@ -38,10 +38,15 @@
                 android:id="@+id/button"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:text="Agregar Adulto Mayor"
+                android:background="@drawable/custom_button"
+                android:drawableLeft="@drawable/ic_avatar"
+                android:onClick="addElderly"
+                android:text=" AGREGAR ADULTO MAYOR "
+                android:textAlignment="textStart"
                 android:textColor="@color/black"
                 app:backgroundTint="@null"
-                android:background="@drawable/custom_button"/>
+                tools:ignore="HardcodedText" />
+
         </LinearLayout>
     </ScrollView>
 

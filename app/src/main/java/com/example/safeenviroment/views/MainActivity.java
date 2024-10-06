@@ -21,4 +21,8 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, secondActivity.class);
         startActivity(i);
     }
+    public void addElderly(View v){
+        Intent i = new Intent(this, addElderly.class);
+        startActivity(i);
+    }
 }
