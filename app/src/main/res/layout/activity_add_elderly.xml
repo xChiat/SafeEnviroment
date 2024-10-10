@@ -88,8 +88,8 @@
                             android:textStyle="bold" />
 
                         <EditText
-                            android:id="@+id/editTextText2"
-                            android:layout_width="119dp"
+                            android:id="@+id/etNombre"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:ems="10"
                             android:inputType="text"
@@ -114,7 +114,7 @@
                             android:textStyle="bold" />
 
                         <EditText
-                            android:id="@+id/editTextText3"
+                            android:id="@+id/etRut"
                             android:layout_width="293dp"
                             android:layout_height="match_parent"
                             android:ems="10"
@@ -139,7 +139,7 @@
                             android:textStyle="bold" />
 
                         <EditText
-                            android:id="@+id/editTextPhone"
+                            android:id="@+id/etPhone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
@@ -166,7 +166,7 @@
                             android:textStyle="bold" />
 
                         <EditText
-                            android:id="@+id/editTextNumber"
+                            android:id="@+id/etAge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
@@ -192,7 +192,7 @@
                             android:textStyle="bold" />
 
                         <EditText
-                            android:id="@+id/editTextTextMultiLine"
+                            android:id="@+id/etInfomed"
                             android:layout_width="wrap_content"
                             android:layout_height="103dp"
                             android:ems="10"
@@ -219,7 +219,7 @@
                             android:textStyle="bold" />
 
                         <EditText
-                            android:id="@+id/editTextTextMultiLine2"
+                            android:id="@+id/etInfoad"
                             android:layout_width="wrap_content"
                             android:layout_height="60dp"
                             android:ems="10"
@@ -236,6 +236,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/custom_button"
                     android:drawableLeft="@drawable/ic_avatar"
+                    android:onClick="addElderly"
                     android:text=" AGREGAR ADULTO MAYOR "
                     android:textAlignment="textStart"
                     android:textColor="@color/black"
