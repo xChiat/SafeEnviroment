@@ -13,6 +13,9 @@
         android:theme="@style/Theme.SafeEnviroment"
         tools:targetApi="31">
         <activity
+            android:name=".views.perfil"
+            android:exported="false" />
+        <activity
             android:name=".views.addElderly"
             android:exported="false" />
         <activity
