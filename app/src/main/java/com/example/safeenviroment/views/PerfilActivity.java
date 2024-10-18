@@ -1,23 +1,15 @@
 package com.example.safeenviroment.views;
 
-import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
+
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.safeenviroment.R;
 import com.example.safeenviroment.controllers.DispositivoController;
@@ -34,7 +26,6 @@ public class PerfilActivity extends AppCompatActivity {
     private TextView ageTextView;
     private TextView emergencyNumberTextView;
     private TextView medicalInfoTextView;
-    private ListView dispositivoListView;
     private ArrayList<Dispositivo> dispositivoList;
 
     @Override
@@ -47,7 +38,6 @@ public class PerfilActivity extends AppCompatActivity {
         ageTextView = findViewById(R.id.tvAge);
         emergencyNumberTextView = findViewById(R.id.tvEmergencyNumber);
         medicalInfoTextView = findViewById(R.id.tvInfoMed);
-        dispositivoListView = findViewById(R.id.disp);
 
         String elderlyRut = getIntent().getStringExtra("elderly_rut");
         Elderly elderly = ElderlyController.findElderly(elderlyRut);
@@ -59,28 +49,133 @@ public class PerfilActivity extends AppCompatActivity {
             emergencyNumberTextView.setText("NÚMERO DE EMERGENCIA: " + elderly.getEmergencyNumber());
             medicalInfoTextView.setText("INFORMACIÓN MÉDICA: " + elderly.getMedicalInfo());
 
-            dispositivoList = elderly.getDispositivo();
-            AdapterDispositivo adapter = new AdapterDispositivo(this, dispositivoList);
-            dispositivoListView.setAdapter(adapter);
-        }
-        Button addButton = findViewById(R.id.addButton);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showAddDeviceDialog();
-            }
-        });
+            gasDetected();
 
+            dispositivoList = elderly.getDispositivo();
+            if (dispositivoList == null) {
+                dispositivoList = new ArrayList<>();
+            }
+            DispositivoController.addDispositivo(1, "movil", 0, 0, 0, 0, 0);
+            DispositivoController.addDispositivo(2, "estatico", 0, 0, 0, 0, 0);
+            ElderlyController.addDispositivo(elderlyRut, DispositivoController.findDispositivo(1));
+            ElderlyController.addDispositivo(elderlyRut, DispositivoController.findDispositivo(2));
+
+            for (Dispositivo d : dispositivoList) {
+               if (d.getTipo().equals("movil")) {
+                   Button downBPMButton = findViewById(R.id.DownBPM);
+                   Button normalBPMButton = findViewById(R.id.NormalBPM);
+                   Button upBPMButton = findViewById(R.id.upBPM);
+
+                   downBPMButton.setOnClickListener(new View.OnClickListener() {
+                       @Override
+                       public void onClick(View v) {
+                           pulsoCardiaco("baja");
+                       }
+                   });
+
+                   normalBPMButton.setOnClickListener(new View.OnClickListener() {
+                       @Override
+                       public void onClick(View v) {
+                           pulsoCardiaco("normal");
+                       }
+                   });
+
+                   upBPMButton.setOnClickListener(new View.OnClickListener() {
+                       @Override
+                       public void onClick(View v) {
+                           pulsoCardiaco("alta");
+                       }
+                   });
+
+               } else if (d.getTipo().equals("estatico")) {
+                   // Temperatura
+                   Button DownTempButton = findViewById(R.id.BTNDownTemp);
+                   Button NormalTempButton = findViewById(R.id.BTNNormalTemp);
+                   Button UpTempButton = findViewById(R.id.BTNupTemp);
+
+                   DownTempButton.setOnClickListener(new View.OnClickListener() {
+                       @Override
+                       public void onClick(View v) {
+                           TemperaturaAmbiente("Baja");
+                       }
+                   });
+                   NormalTempButton.setOnClickListener(new View.OnClickListener() {
+                       @Override
+                       public void onClick(View v) {
+                           TemperaturaAmbiente("Normal");
+                       }
+                   });
+                   UpTempButton.setOnClickListener(new View.OnClickListener() {
+                       @Override
+                       public void onClick(View v) {
+                           TemperaturaAmbiente("Alta");
+                       }
+                   });
+                   // Humedad
+                   Button DownHumButton = findViewById(R.id.BTNDownH);
+                   Button NormalHumButton = findViewById(R.id.BTNNormalH);
+                   Button UpHumButton = findViewById(R.id.BTNupH);
+
+                   DownHumButton.setOnClickListener(new View.OnClickListener() {
+                       @Override
+                       public void onClick(View v) {
+                           HumedadAmbiente("Baja");
+                       }
+                   });
+                   NormalHumButton.setOnClickListener(new View.OnClickListener() {
+                       @Override
+                       public void onClick(View v) {
+                           HumedadAmbiente("Normal");
+                       }
+                   });
+                   UpHumButton.setOnClickListener(new View.OnClickListener() {
+                       @Override
+                       public void onClick(View v) {
+                           HumedadAmbiente("Alta");
+                       }
+                   });
+               }
+            }
+        }
+    }
+
+    public void secondActivity(View v) {
+        Intent i = new Intent(this, secondActivity.class);
+        i.putExtra("elderly_rut", getIntent().getStringExtra("elderly_rut"));
+        startActivity(i);
+    }
+
+    public void gasDetected() {
+        Button gasButton = findViewById(R.id.BTNgasDetected);
+        Boolean gas;
+        gas = Math.random() < 0.5;
+        if (gas) {
+            gasButton.setText("GAS DETECTADO");
+            gasButton.setTextColor(getResources().getColor(R.color.md_theme_error));
+            alertCuidador("Se ha detectado gas");
+        }else {
+            gasButton.setText("NO HAY GAS");
+            gasButton.setTextColor(getResources().getColor(R.color.green));
+        }
     }
 
     public void pulsoCardiaco(String tipo) {
+        Button type = findViewById(R.id.BTNbpmType);
         int pulso;
         if (tipo.equals("normal")) {
             pulso = (int) (Math.random() * (90 - 60 + 1) + 60);
+            type.setText(" NORMAL ");
+            type.setTextColor(getResources().getColor(R.color.green));
         } else if (tipo.equals("baja")) {
             pulso = (int) (Math.random() * (60 - 30 + 1) + 30);
+            type.setText("BAJO");
+            type.setTextColor(getResources().getColor(R.color.blue));
+            alertCuidador("El adulto mayor tiene un pulso cardiaco bajo: " + pulso);
         } else if (tipo.equals("alta")) {
             pulso = (int) (Math.random() * (110 - 90 + 1) + 90);
+            type.setText("ALTO");
+            type.setTextColor(getResources().getColor(R.color.md_theme_error));
+            alertCuidador("El adulto mayor tiene un pulso cardiaco Alto: " + pulso);
         } else {
             throw new IllegalArgumentException("Tipo desconocido: " + tipo);
         }
@@ -88,88 +183,53 @@ public class PerfilActivity extends AppCompatActivity {
         TextView bpmTextView = findViewById(R.id.BPM);
         bpmTextView.setText(String.valueOf(pulso));
     }
-
-    private void showAddDeviceDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.agregar_dispositivo, null);
-        builder.setView(dialogView)
-                .setTitle("Agregar dispositivo");
-
-        AutoCompleteTextView deviceDropdown = dialogView.findViewById(R.id.deviceDropdown);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.simple_items, android.R.layout.simple_dropdown_item_1line);
-        deviceDropdown.setAdapter(adapter);
-
-        builder.setPositiveButton("Agregar", (dialog, which) -> {
-            String selectedDeviceType = deviceDropdown.getText().toString();
-            String deviceType = selectedDeviceType.equals("Dispositivo movil") ? "movil" : "estatico";
-
-            int id = DispositivoController.findAll().size() + 1;
-            DispositivoController.addDispositivo(id, deviceType, 0, 0, 0, 0, 0);
-            Dispositivo dispositivo = DispositivoController.findDispositivo(id);
-            String elderlyRut = getIntent().getStringExtra("elderly_rut");
-            ElderlyController.addDispositivo(elderlyRut, dispositivo);
-        });
-
-        builder.setNegativeButton("Cancelar", null);
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-}
-
-class AdapterDispositivo extends ArrayAdapter<Dispositivo> {
-
-    private PerfilActivity perfilActivity;
-    private ArrayList<Dispositivo> dispositivoList;
-
-    public AdapterDispositivo(@NonNull PerfilActivity context, ArrayList<Dispositivo> dispositivoList) {
-        super(context, 0, dispositivoList);
-        this.perfilActivity = context;
-        this.dispositivoList = dispositivoList;
+    private void alertCuidador(String mensaje) {
+        Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show();
     }
 
-    @NonNull
-    @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        Dispositivo dispositivo = dispositivoList.get(position);
-        LayoutInflater inflater = perfilActivity.getLayoutInflater();
-        View item;
-
-        if (dispositivo.getTipo().equals("movil")) {
-            item = inflater.inflate(R.layout.pulso_cardiaco, parent, false);
-
-            Button downBPMButton = item.findViewById(R.id.DownBPM);
-            Button normalBPMButton = item.findViewById(R.id.NormalBPM);
-            Button upBPMButton = item.findViewById(R.id.upBPM);
-
-            downBPMButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    perfilActivity.pulsoCardiaco("baja");
-                }
-            });
-
-            normalBPMButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    perfilActivity.pulsoCardiaco("normal");
-                }
-            });
-
-            upBPMButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    perfilActivity.pulsoCardiaco("alta");
-                }
-            });
-
-        } else {
-            item = inflater.inflate(R.layout.detec_g_t_h, parent, false);
-            // Configurar la vista para el dispositivo estático si es necesario
+    public void TemperaturaAmbiente(String tipo) {
+        Button type = findViewById(R.id.BTNtempType);
+        float temperatura = 0;
+        if (tipo == "Baja") {
+            temperatura = (float) (Math.random() * (15 - 10 + 1) + 10);
+            type.setText("BAJA");
+            type.setTextColor(getResources().getColor(R.color.blue));
+            alertCuidador("La temperatura ambiente es baja: " + temperatura+"°C");
+        } else if (tipo == "Normal") {
+            temperatura = (float) (Math.random() * (25 - 15 + 1) + 15);
+            type.setText("NORMAL");
+            type.setTextColor(getResources().getColor(R.color.green));
+        } else if (tipo == "Alta") {
+            temperatura = (float) (Math.random() * (35 - 25 + 1) + 25);
+            type.setText("ALTA");
+            type.setTextColor(getResources().getColor(R.color.md_theme_error));
+            alertCuidador("La temperatura ambiente es alta: " + temperatura+"°C");
         }
 
-        return item;
+        TextView tempTextView = findViewById(R.id.tvTemp);
+        tempTextView.setText(temperatura+"°C");
+    }
+    public void HumedadAmbiente(String tipo) {
+        Button type = findViewById(R.id.BTNhumType);
+        float humedad = 0;
+        if (tipo == "Baja") {
+            humedad = (float) (Math.random() * (30 - 20 + 1) + 20);
+            type.setText("BAJA");
+            type.setTextColor(getResources().getColor(R.color.blue));
+            alertCuidador("La humedad ambiente es baja: " + humedad+"%");
+        } else if (tipo == "Normal") {
+            humedad = (float) (Math.random() * (60 - 30 + 1) + 30);
+            type.setText("NORMAL");
+            type.setTextColor(getResources().getColor(R.color.green));
+        } else if (tipo == "Alta") {
+            humedad = (float) (Math.random() * (100 - 60 + 1) + 60);
+            type.setText("ALTA");
+            type.setTextColor(getResources().getColor(R.color.md_theme_error));
+            alertCuidador("La humedad ambiente es alta: " + humedad+"%");
+        }
+
+        TextView humTextView = findViewById(R.id.TVHum);
+        humTextView.setText(humedad+"%");
     }
 }
+

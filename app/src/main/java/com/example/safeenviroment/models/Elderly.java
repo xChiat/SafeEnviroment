@@ -22,7 +22,9 @@ public class Elderly extends Person {
         this.dispositivo = dispositivo;
     }
 
-    public Elderly() {}
+    public Elderly() {
+        this.dispositivo = new ArrayList<>();
+    }
 
     // Getters y Setters
     public int getAge() {

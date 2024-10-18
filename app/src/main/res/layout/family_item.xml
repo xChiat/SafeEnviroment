@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- family_item.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre: "
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/familyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Relacion: "
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/familyRelation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Relation" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Numero de telefono: "
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/familyNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Number" />
+    </LinearLayout>
+</LinearLayout>

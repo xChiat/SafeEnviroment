@@ -25,22 +25,24 @@ public class ElderlyController {
             return "Error: " + ex.getMessage();
         }
     }
-    public static String addFamily(String rut, Family family) {
-        Elderly e = findElderly(rut);
-        if (e != null) {
-            e.getFamily().add(family);
-            return "Familiar agregado";
+    public static void addFamily(String elderlyRut, Family family) {
+        Elderly elderly = findElderly(elderlyRut);
+        if (elderly != null) {
+            if (elderly.getFamily() == null) {
+                elderly.setFamily(new ArrayList<>()); // Initialize familyList if null
+            }
+            elderly.getFamily().add(family);
         }
-        return "No existe el rut";
     }
 
-    public static String addDispositivo(String rut, Dispositivo dispositivo) {
-        Elderly e = findElderly(rut);
-        if (e != null) {
-            e.getDispositivo().add(dispositivo);
-            return "Dispositivo agregado";
+    public static void addDispositivo(String rut, Dispositivo dispositivo) {
+        Elderly elderly = findElderly(rut);
+        if (elderly != null) {
+            if (elderly.getDispositivo() == null) {
+                elderly.setDispositivo(new ArrayList<>());
+            }
+            elderly.getDispositivo().add(dispositivo);
         }
-        return "No existe el rut";
     }
 
     // READ

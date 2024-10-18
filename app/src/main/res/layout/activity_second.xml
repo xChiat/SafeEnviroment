@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -21,7 +22,7 @@
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="?attr/actionBarSize"
         android:padding="16dp"
         app:layout_anchor="@+id/scrollView2"
@@ -30,50 +31,47 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="40dp"
             android:orientation="vertical">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/InfoMed"
+                android:id="@+id/informMed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp">
+                android:layout_margin="8dp"
+                app:strokeWidth="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="10dp"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="10dp">
+                        android:text="Informacion medica"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        />
 
-                        <!-- Title, secondary and supporting text -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Informacion medica"
-                            android:textAppearance="?attr/textAppearanceTitleMedium"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="Info Medica:"
-                            android:textAppearance="?attr/textAppearanceBodyMedium"
-                            android:textColor="?android:attr/textColorSecondary"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="Info Adicional:"
-                            android:textAppearance="?attr/textAppearanceBodyMedium"
-                            android:textColor="?android:attr/textColorSecondary"
-                            />
+                    <TextView
+                        android:id="@+id/InfoMed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Info Medica:"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?android:attr/textColorSecondary"
+                        tools:ignore="DuplicateIds" />
 
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/InfoAd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Info Adicional:"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?android:attr/textColorSecondary" />
 
                 </LinearLayout>
 
@@ -81,9 +79,10 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardFamilly"
-                android:layout_width="match_parent"
+                android:layout_width="367dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp">
+                android:layout_margin="8dp"
+                app:strokeWidth="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -91,32 +90,92 @@
                     android:orientation="vertical"
                     android:padding="10dp">
 
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Family List"
+                        android:textAppearance="?attr/textAppearanceTitleMedium" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <!-- Title, secondary and supporting text -->
-                        <TextView
-                            android:layout_width="wrap_content"
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Family Members"
-                            android:textAppearance="?attr/textAppearanceTitleMedium" />
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/rutET"
+                                android:layout_width="wrap_content"
+                                android:layout_height="48dp"
+                                android:layout_weight="1"
+                                android:ems="10"
+                                android:hint="Rut"
+                                android:inputType="text" />
+
+                            <EditText
+                                android:id="@+id/relationET"
+                                android:layout_width="wrap_content"
+                                android:layout_height="48dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_weight="1"
+                                android:ems="10"
+                                android:hint="Relacion"
+                                android:inputType="text" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/nameET"
+                                android:layout_width="wrap_content"
+                                android:layout_height="48dp"
+                                android:layout_weight="1"
+                                android:ems="10"
+                                android:hint="Nombre"
+                                android:inputType="text" />
+
+                            <EditText
+                                android:id="@+id/numberET"
+                                android:layout_width="wrap_content"
+                                android:layout_height="48dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_weight="1"
+                                android:ems="10"
+                                android:hint="Numero"
+                                android:inputType="phone" />
+
+                            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                                android:id="@+id/floating_action_button"
+                                style="?attr/floatingActionButtonSmallStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:contentDescription="add"
+                                android:onClick="addFamily"
+                                app:srcCompat="@drawable/add_24dp"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                        </LinearLayout>
 
                         <ListView
                             android:id="@+id/lvFamily"
-                            android:layout_width="match_parent"
-                            android:layout_height="63dp" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="118dp"
+                            android:layout_marginTop="10dp" />
 
                     </LinearLayout>
 
                     <!-- Buttons -->
-                    <Button
-                        android:id="@+id/addFamily"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Agregar Familiar" />
+
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -125,7 +184,9 @@
                 android:id="@+id/card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp">
+                android:layout_margin="8dp"
+                android:layout_marginBottom="60dp"
+                app:strokeWidth="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -148,7 +209,7 @@
 
                         <ListView
                             android:id="@+id/medicina"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="243dp" />
 
                     </LinearLayout>
