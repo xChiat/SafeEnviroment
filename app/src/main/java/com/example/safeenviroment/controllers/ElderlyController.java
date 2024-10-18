@@ -1,5 +1,6 @@
 package com.example.safeenviroment.controllers;
 
+import com.example.safeenviroment.models.Dispositivo;
 import com.example.safeenviroment.models.Elderly;
 import com.example.safeenviroment.models.Family;
 
@@ -29,6 +30,15 @@ public class ElderlyController {
         if (e != null) {
             e.getFamily().add(family);
             return "Familiar agregado";
+        }
+        return "No existe el rut";
+    }
+
+    public static String addDispositivo(String rut, Dispositivo dispositivo) {
+        Elderly e = findElderly(rut);
+        if (e != null) {
+            e.getDispositivo().add(dispositivo);
+            return "Dispositivo agregado";
         }
         return "No existe el rut";
     }

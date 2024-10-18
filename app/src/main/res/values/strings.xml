@@ -4,4 +4,8 @@
     <string name="heartbeat">Heartbeat</string>
     <string name="label">Add Familiar</string>
     <string name="content_description_start_icon">add icon</string>
+    <string-array name="simple_items">
+        <item>Dispositivo movil</item>
+        <item>Dispositivo estatico</item>
+    </string-array>
 </resources>

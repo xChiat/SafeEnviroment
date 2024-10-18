@@ -3,6 +3,7 @@ package com.example.safeenviroment.models;
 public class Dispositivo {
     // Atributos
     private int id;
+    private String tipo;
     private float temperatura;
     private float humedad;
     private int bpm;
@@ -10,8 +11,9 @@ public class Dispositivo {
     private int movimiento;
 
     // Constructor
-    public Dispositivo(int id, float temperatura, float humedad, int bpm, float gasValue, int movimiento) {
+    public Dispositivo(int id, String tipo, float temperatura, float humedad, int bpm, float gasValue, int movimiento) {
         this.id = id;
+        this.tipo = tipo;
         this.temperatura = temperatura;
         this.humedad = humedad;
         this.bpm = bpm;
@@ -27,6 +29,14 @@ public class Dispositivo {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public float getTemperatura() {

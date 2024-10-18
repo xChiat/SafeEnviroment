@@ -8,7 +8,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/InfoMed"
         android:layout_width="411dp"
-        android:layout_height="208dp"
+        android:layout_height="325dp"
         app:strokeColor="@color/md_theme_onBackground"
         app:strokeWidth="2dp"
         tools:ignore="MissingConstraints">
@@ -28,7 +28,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Detector de Gas Temperatura y humedad"
+                    android:text="Detector de Gas, Temperatura y humedad"
                     android:textAppearance="?attr/textAppearanceTitleMedium" />
 
                 <LinearLayout
@@ -41,6 +41,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginRight="10dp"
+                        android:gravity="center_vertical"
                         android:text="Temperatura: "
                         android:textAppearance="?attr/textAppearanceBodyMedium"
                         android:textColor="?android:attr/textColorSecondary"
@@ -50,6 +51,7 @@
                         android:id="@+id/temp"
                         android:layout_width="158dp"
                         android:layout_height="match_parent"
+                        android:gravity="center_vertical"
                         android:textAppearance="?attr/textAppearanceBodyMedium"
                         android:textColor="?android:attr/textColorSecondary"
                         android:textSize="16sp" />
@@ -64,6 +66,44 @@
 
                 </LinearLayout>
 
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/tempTypes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <Button
+                        android:id="@+id/DownTemp"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Baja"
+                        android:textColor="#437990"
+                        app:strokeColor="#437990"
+                        app:strokeWidth="2dp" />
+
+                    <Button
+                        android:id="@+id/NormalTemp"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Normal"
+                        android:textColor="#637C33"
+                        app:strokeColor="#637C33"
+                        app:strokeWidth="2dp" />
+
+                    <Button
+                        android:id="@+id/upTemp"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Alta"
+                        android:textColor="@color/md_theme_error"
+                        app:strokeColor="@color/md_theme_error"
+                        app:strokeWidth="2dp" />
+
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -74,6 +114,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginRight="10dp"
+                        android:gravity="center_vertical"
                         android:text="Humedad: "
                         android:textAppearance="?attr/textAppearanceBodyMedium"
                         android:textColor="?android:attr/textColorSecondary"
@@ -84,6 +125,7 @@
                         android:layout_width="168dp"
                         android:layout_height="match_parent"
                         android:layout_marginRight="10dp"
+                        android:gravity="center_vertical"
                         android:textAppearance="?attr/textAppearanceBodyMedium"
                         android:textColor="?android:attr/textColorSecondary"
                         android:textSize="16sp" />
@@ -98,11 +140,50 @@
                         android:text="TYPE" />
                 </LinearLayout>
 
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/hTypes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <Button
+                        android:id="@+id/DownH"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Baja"
+                        android:textColor="#437990"
+                        app:strokeColor="#437990"
+                        app:strokeWidth="2dp" />
+
+                    <Button
+                        android:id="@+id/NormalH"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Normal"
+                        android:textColor="#637C33"
+                        app:strokeColor="#637C33"
+                        app:strokeWidth="2dp" />
+
+                    <Button
+                        android:id="@+id/upH"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Alta"
+                        android:textColor="@color/md_theme_error"
+                        app:strokeColor="@color/md_theme_error"
+                        app:strokeWidth="2dp" />
+
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+
                 <Button
                     android:id="@+id/gasDetected"
                     style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:clickable="false"
                     android:gravity="center_horizontal|center_vertical"
                     android:text="GAS DETECTED" />

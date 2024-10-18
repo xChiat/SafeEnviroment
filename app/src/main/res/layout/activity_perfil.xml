@@ -67,7 +67,7 @@
                             android:id="@+id/tvNombre"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_marginTop="10dp"
                             android:text="NOMBRE:"
                             android:textColor="#000000"
@@ -77,7 +77,7 @@
                             android:id="@+id/tvRut"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_marginBottom="10dp"
                             android:layout_marginTop="10dp"
                             android:text="RUT:"
@@ -88,7 +88,7 @@
                             android:id="@+id/tvAge"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_marginBottom="10dp"
                             android:text="EDAD:"
                             android:textColor="#000000"
@@ -138,10 +138,17 @@
 
             </LinearLayout>
 
+            <ListView
+                android:id="@+id/disp"
+                android:layout_width="match_parent"
+                android:layout_height="313dp"
+                android:layout_marginTop="10dp" />
+
             <Button
+                android:id="@+id/addButton"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/custom_button"
                 android:text="Agregar dispositivo"
                 android:textColor="@color/black"

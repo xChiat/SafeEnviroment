@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -26,24 +27,33 @@ public class MainActivity extends AppCompatActivity {
 
     private LinearLayout mainLayout;
     private ListView listView;
+    private ArrayList<Elderly> elderlyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ElderlyController.findAll();
         mainLayout = findViewById(R.id.mainLL);
         listView = findViewById(R.id.listView);
 
-        AdapterElderly adapter = new AdapterElderly(this);
+        elderlyList = ElderlyController.findAll();
+        AdapterElderly adapter = new AdapterElderly(this, elderlyList);
         listView.setAdapter(adapter);
+
+        ElderlyController.addElderly("12345678-9", "Juan Perez", 80, "123456789", "Diabetes", "Ninguna");
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Elderly selectedElderly = elderlyList.get(position);
+                Intent intent = new Intent(MainActivity.this, PerfilActivity.class);
+                intent.putExtra("elderly_rut", selectedElderly.getRut());
+                startActivity(intent);
+            }
+        });
     }
 
-    public void secondAct(View v) {
-        Intent i = new Intent(this, secondActivity.class);
-        startActivity(i);
-    }
 
     public void addElderly(View v) {
         Intent i = new Intent(this, addElderly.class);
@@ -53,26 +63,27 @@ public class MainActivity extends AppCompatActivity {
 
 class AdapterElderly extends ArrayAdapter<Elderly> {
 
-    AppCompatActivity appCompatActivity;
+    private AppCompatActivity appCompatActivity;
+    private ArrayList<Elderly> elderlyList;
 
-    public AdapterElderly(@NonNull AppCompatActivity context) {
-        super(context, R.layout.elderly_perfil_link, ElderlyController.findAll());
-
-        appCompatActivity = context;
+    public AdapterElderly(@NonNull AppCompatActivity context, ArrayList<Elderly> elderlyList) {
+        super(context, R.layout.elderly_perfil_link, elderlyList);
+        this.appCompatActivity = context;
+        this.elderlyList = elderlyList;
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
         LayoutInflater inflater = appCompatActivity.getLayoutInflater();
         View item = inflater.inflate(R.layout.elderly_perfil_link, null);
 
         TextView name = item.findViewById(R.id.tvNombre);
         TextView rut = item.findViewById(R.id.tvRut);
 
-        name.setText(name.getText() + " " + ElderlyController.findAll().get(position).getName());
-        rut.setText(rut.getText() + " " + ElderlyController.findAll().get(position).getRut());
+        Elderly elderly = elderlyList.get(position);
+        name.setText("NOMBRE: " + elderly.getName());
+        rut.setText("RUT: " + elderly.getRut());
 
         return item;
     }

@@ -8,10 +8,11 @@ public class DispositivoController {
     private static final ArrayList<Dispositivo> dispositivoList = new ArrayList<>();
 
     // CREATE
-    public static String addDispositivo(int id, float temperatura, float humedad, int bpm, float gasValue, int movimiento) {
+    public static String addDispositivo(int id, String tipo, float temperatura, float humedad, int bpm, float gasValue, int movimiento) {
         try {
             Dispositivo d = new Dispositivo();
             d.setId(id);
+            d.setTipo(tipo);
             d.setTemperatura(temperatura);
             d.setHumedad(humedad);
             d.setBpm(bpm);

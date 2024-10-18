@@ -56,6 +56,44 @@
 
                 </LinearLayout>
 
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/BPMTypes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <Button
+                        android:id="@+id/DownBPM"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Baja"
+                        android:textColor="#437990"
+                        app:strokeColor="#437990"
+                        app:strokeWidth="2dp" />
+
+                    <Button
+                        android:id="@+id/NormalBPM"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Normal"
+                        android:textColor="#637C33"
+                        app:strokeColor="#637C33"
+                        app:strokeWidth="2dp" />
+
+                    <Button
+                        android:id="@+id/upBPM"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Alta"
+                        android:textColor="@color/md_theme_error"
+                        app:strokeColor="@color/md_theme_error"
+                        app:strokeWidth="2dp" />
+
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+
                 <ImageView
                     android:id="@+id/imageView2"
                     android:layout_width="wrap_content"
