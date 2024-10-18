@@ -12,7 +12,7 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/principal"
+            android:background="@color/good"
             app:title="Safe Environment"
             app:navigationIcon="@drawable/ic_menu" />
 
@@ -32,143 +32,138 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Elderly Profile Section -->
-
-            <RelativeLayout
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/InfoMed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border"
-                android:elevation="4dp"
-                android:padding="16dp">
-
-                <ImageView
-                    android:id="@+id/avatar"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:contentDescription="@string/avatar"
-                    android:src="@drawable/ic_avatar" />
+                android:layout_margin="8dp">
 
                 <LinearLayout
-                    android:layout_width="313dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_toEndOf="@id/avatar"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/nameTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Nombre: ..."
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/ageTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Edad: ..."
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/emergencyNumberTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Número de emergencia: ..."
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </RelativeLayout>
-
-            <!-- Medical and Additional Information Section -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="92dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/border"
-                android:elevation="4dp"
-                android:padding="16dp">
-
-                <LinearLayout
-                    android:layout_width="387dp"
-                    android:layout_height="58dp"
-                    android:layout_marginStart="2dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/medicalInfoTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Informacion Medica:"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/additionalInfoTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Informacion Adicional:"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="16dp"
-                android:layout_weight="1"
-                android:background="@drawable/border"
-                android:elevation="4dp"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Familiares"
-                    android:textStyle="bold" />
-
-                <ListView
-                    android:id="@+id/family_list"
-                    android:layout_width="383dp"
-                    android:layout_height="52dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="35dp" />
-
-            </RelativeLayout>
-
-            <!-- Medication Schedule and Family Members Section -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="319dp"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
-
-                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/border"
-                    android:elevation="4dp"
-                    android:padding="16dp">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Horario Medicamentos Hoy"
-                        android:textStyle="bold" />
-
-                    <ListView
-                        android:id="@+id/med_schedule_list"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginTop="39dp"
-                        android:choiceMode="multipleChoice" />
+                        android:orientation="vertical"
+                        android:padding="10dp">
 
-                </RelativeLayout>
+                        <!-- Title, secondary and supporting text -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Informacion medica"
+                            android:textAppearance="?attr/textAppearanceTitleMedium"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Info Medica:"
+                            android:textAppearance="?attr/textAppearanceBodyMedium"
+                            android:textColor="?android:attr/textColorSecondary"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Info Adicional:"
+                            android:textAppearance="?attr/textAppearanceBodyMedium"
+                            android:textColor="?android:attr/textColorSecondary"
+                            />
 
-            </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardFamilly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- Title, secondary and supporting text -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Family Members"
+                            android:textAppearance="?attr/textAppearanceTitleMedium" />
+
+                        <ListView
+                            android:id="@+id/lvFamily"
+                            android:layout_width="match_parent"
+                            android:layout_height="63dp" />
+
+                    </LinearLayout>
+
+                    <!-- Buttons -->
+                    <Button
+                        android:id="@+id/addFamily"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Agregar Familiar" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- Title, secondary and supporting text -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Horario medico"
+                            android:textAppearance="?attr/textAppearanceTitleMedium"
+                            />
+
+                        <ListView
+                            android:id="@+id/medicina"
+                            android:layout_width="match_parent"
+                            android:layout_height="243dp" />
+
+                    </LinearLayout>
+
+                    <!-- Buttons -->
+                    <Button
+                        android:id="@+id/addMed"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Agregar medicina" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
     </ScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
