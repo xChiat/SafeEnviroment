@@ -15,9 +15,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/good"
-            android:textAlignment="center"
-            app:navigationIcon="@drawable/ic_menu"
-            app:title="@string/app_name" />
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:navigationIcon="@drawable/back"
+            app:title="Safe Environment" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

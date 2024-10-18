@@ -41,7 +41,9 @@ public class MainActivity extends AppCompatActivity {
         AdapterElderly adapter = new AdapterElderly(this, elderlyList);
         listView.setAdapter(adapter);
 
-        ElderlyController.addElderly("12345678-9", "Juan Perez", 80, "123456789", "Diabetes", "Ninguna");
+        if (elderlyList.isEmpty()) {
+            ElderlyController.addElderly("12345678-9", "Juan Perez", 80, "123456789", "Diabetes", "Ninguna");
+        }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

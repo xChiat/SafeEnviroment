@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,8 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.safeenviroment.R;
 import com.example.safeenviroment.controllers.ElderlyController;
 import com.example.safeenviroment.controllers.FamilyController;
+import com.example.safeenviroment.controllers.MedicineAdapter;
 import com.example.safeenviroment.models.Elderly;
 import com.example.safeenviroment.models.Family;
+import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.ArrayList;
 
@@ -31,6 +34,10 @@ public class secondActivity extends AppCompatActivity {
     ListView familyListView;
     FamilyAdapter familyAdapter;
     ArrayList<Family> familyList;
+    EditText date, desc;
+    ListView medList;
+    MedicineAdapter medicineAdapter;
+    ArrayList<String> medicineList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +52,9 @@ public class secondActivity extends AppCompatActivity {
         nameEditText = findViewById(R.id.nameET); // Ensure this is an EditText
         numberEditText = findViewById(R.id.numberET); // Ensure this is an EditText
         familyListView = findViewById(R.id.lvFamily);
+        date = findViewById(R.id.Date);
+        desc = findViewById(R.id.desc);
+        medList = findViewById(R.id.medicina);
 
         String elderlyRut = getIntent().getStringExtra("elderly_rut");
         Elderly elderly = ElderlyController.findElderly(elderlyRut);
@@ -57,6 +67,21 @@ public class secondActivity extends AppCompatActivity {
         }
         familyAdapter = new FamilyAdapter(this, familyList);
         familyListView.setAdapter(familyAdapter);
+
+        medicineList = elderly.getMedicina();
+        if (medicineList == null) {
+            medicineList = new ArrayList<>();
+        }
+        medicineAdapter = new MedicineAdapter(this, medicineList);
+        medList.setAdapter(medicineAdapter);
+
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     public void addFamily(View v) {
@@ -84,6 +109,23 @@ public class secondActivity extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+    public void addMedicine(View v) {
+        if (areFieldsNotEmpty(date, desc)) {
+            String fecha = date.getText().toString();
+            String descripcion = desc.getText().toString();
+            Elderly elderly = ElderlyController.findElderly(getIntent().getStringExtra("elderly_rut"));
+            String txt = "Horario: " + fecha + " - " + descripcion;
+            if (medicineList == null) {
+                medicineList = new ArrayList<>();
+            }
+            medicineList.add(txt);
+            elderly.setMedicina(medicineList);
+            medicineAdapter.notifyDataSetChanged();
+        } else {
+            System.out.println("Error: Campos vacíos");
+        }
     }
 }
 

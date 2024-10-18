@@ -16,6 +16,7 @@ import com.example.safeenviroment.controllers.DispositivoController;
 import com.example.safeenviroment.controllers.ElderlyController;
 import com.example.safeenviroment.models.Dispositivo;
 import com.example.safeenviroment.models.Elderly;
+import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.ArrayList;
 
@@ -41,6 +42,14 @@ public class PerfilActivity extends AppCompatActivity {
 
         String elderlyRut = getIntent().getStringExtra("elderly_rut");
         Elderly elderly = ElderlyController.findElderly(elderlyRut);
+
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         if (elderly != null) {
             nameTextView.setText("NOMBRE: " + elderly.getName());
