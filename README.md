@@ -11,3 +11,6 @@ Utiliza una red de sensores para recopilar datos en tiempo real sobre el entorno
 - Monitorear el ritmo cardíaco
 - Proporcionar alertas en tiempo real
 - Ofrecer una interfaz móvil intuitiva para cuidadores
+
+---
+![ClassDiagrama](SafeEnv.drawio.png)
