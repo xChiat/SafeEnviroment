@@ -156,15 +156,19 @@ public class PerfilActivity extends AppCompatActivity {
 
     public void gasDetected() {
         Button gasButton = findViewById(R.id.BTNgasDetected);
-        Boolean gas;
-        gas = Math.random() < 0.5;
-        if (gas) {
-            gasButton.setText("GAS DETECTADO");
-            gasButton.setTextColor(getResources().getColor(R.color.md_theme_error));
-            alertCuidador("Se ha detectado gas");
-        }else {
+        int gasConcentration = (int) (Math.random() * 1500); // Simulación de la lectura del sensor MQ-5
+
+        if (gasConcentration < 200) {
             gasButton.setText("NO HAY GAS");
             gasButton.setTextColor(getResources().getColor(R.color.green));
+        } else if (gasConcentration >= 200 && gasConcentration <= 1000) {
+            gasButton.setText("ADVERTENCIA: GAS DETECTADO");
+            gasButton.setTextColor(getResources().getColor(R.color.warning));
+            alertCuidador("Advertencia: Se ha detectado gas en niveles moderados (" + gasConcentration + " ppm). Verifique la ventilación y las posibles fuentes de gas.");
+        } else if (gasConcentration > 1000) {
+            gasButton.setText("PELIGRO: GAS DETECTADO");
+            gasButton.setTextColor(getResources().getColor(R.color.md_theme_error));
+            alertCuidador("Alerta crítica: Se ha detectado gas en niveles peligrosos (" + gasConcentration + " ppm). Evacúe el área y tome medidas de seguridad inmediatas.");
         }
     }
 
