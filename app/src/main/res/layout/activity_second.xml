@@ -81,14 +81,14 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardFamilly"
-                android:layout_width="367dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 app:strokeWidth="2dp">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="10dp">
 
@@ -100,7 +100,7 @@
                         android:textAppearance="?attr/textAppearanceTitleMedium" />
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
@@ -139,7 +139,7 @@
 
                             <EditText
                                 android:id="@+id/nameET"
-                                android:layout_width="wrap_content"
+                                android:layout_width="197dp"
                                 android:layout_height="48dp"
                                 android:layout_weight="1"
                                 android:ems="10"
@@ -184,20 +184,20 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card"
-                android:layout_width="367dp"
+                android:layout_width="wrap_content"
                 android:layout_height="372dp"
                 android:layout_margin="8dp"
                 android:layout_marginBottom="60dp"
                 app:strokeWidth="2dp">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:padding="10dp">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
@@ -211,13 +211,14 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
                             <EditText
                                 android:id="@+id/Date"
-                                android:layout_width="121dp"
+                                android:layout_width="197dp"
                                 android:layout_height="48dp"
+                                android:layout_weight="1"
                                 android:ems="10"
                                 android:hint="Fecha"
                                 android:inputType="date" />
@@ -226,10 +227,11 @@
                                 android:id="@+id/desc"
                                 android:layout_width="wrap_content"
                                 android:layout_height="48dp"
+                                android:layout_marginLeft="10dp"
                                 android:layout_weight="1"
                                 android:ems="10"
-                                android:inputType="text"
-                                android:hint="Descripcion"/>
+                                android:hint="Descripcion"
+                                android:inputType="text" />
 
                             <com.google.android.material.floatingactionbutton.FloatingActionButton
                                 android:id="@+id/addMedicine"
@@ -242,11 +244,13 @@
                                 tools:ignore="TouchTargetSizeCheck" />
                         </LinearLayout>
 
+
+
                         <ListView
                             android:id="@+id/medicina"
-                            android:layout_width="match_parent"
-                            android:layout_marginTop="10dp"
-                            android:layout_height="273dp" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="273dp"
+                            android:layout_marginTop="10dp" />
 
                     </LinearLayout>
 

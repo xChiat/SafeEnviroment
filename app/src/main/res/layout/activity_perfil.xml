@@ -124,17 +124,19 @@
                     <Button
                         android:id="@+id/button1"
                         style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="195dp"
+                        android:layout_width="163dp"
                         android:layout_height="wrap_content"
-                        android:text="Editar Adulto Mayor" />
+                        android:text="Editar Adulto Mayor"
+                        android:textSize="12sp" />
 
                     <Button
                         android:id="@+id/button3"
                         style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="163dp"
+                        android:layout_width="143dp"
                         android:layout_height="wrap_content"
                         android:onClick="secondActivity"
-                        android:text="Mas informacion " />
+                        android:text="Mas informacion "
+                        android:textSize="12sp" />
                 </com.google.android.material.button.MaterialButtonToggleGroup>
 
             </LinearLayout>
@@ -183,7 +185,7 @@
 
                             <TextView
                                 android:id="@+id/BPM"
-                                android:layout_width="180dp"
+                                android:layout_width="127dp"
                                 android:layout_height="match_parent"
                                 android:layout_marginRight="15dp"
                                 android:gravity="center_vertical"
@@ -206,6 +208,7 @@
                             android:id="@+id/BPMTypes"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            app:singleSelection="true"
                             android:layout_marginTop="10dp">
 
                             <Button
@@ -297,7 +300,7 @@
 
                             <TextView
                                 android:id="@+id/tvTemp"
-                                android:layout_width="139dp"
+                                android:layout_width="88dp"
                                 android:layout_height="match_parent"
                                 android:gravity="center_vertical"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
@@ -318,6 +321,7 @@
                             android:id="@+id/BTNtempTypes"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            app:singleSelection="true"
                             android:layout_marginTop="10dp">
 
                             <Button
@@ -370,9 +374,9 @@
 
                             <TextView
                                 android:id="@+id/TVHum"
-                                android:layout_width="152dp"
+                                android:layout_width="107dp"
                                 android:layout_height="match_parent"
-                                android:layout_marginRight="10dp"
+                                android:layout_marginRight="5dp"
                                 android:gravity="center_vertical"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
                                 android:textColor="?android:attr/textColorSecondary"
@@ -392,6 +396,7 @@
                             android:id="@+id/BTNhTypes"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            app:singleSelection="true"
                             android:layout_marginTop="10dp">
 
                             <Button

@@ -9,6 +9,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.safeenviroment.R;
@@ -164,11 +165,11 @@ public class PerfilActivity extends AppCompatActivity {
         } else if (gasConcentration >= 200 && gasConcentration <= 1000) {
             gasButton.setText("ADVERTENCIA: GAS DETECTADO");
             gasButton.setTextColor(getResources().getColor(R.color.warning));
-            alertCuidador("Advertencia: Se ha detectado gas en niveles moderados (" + gasConcentration + " ppm). Verifique la ventilación y las posibles fuentes de gas.");
+            gasAlert("Advertencia: Se ha detectado gas en niveles moderados (" + gasConcentration + " ppm). Verifique la ventilación y las posibles fuentes de gas.");
         } else if (gasConcentration > 1000) {
             gasButton.setText("PELIGRO: GAS DETECTADO");
             gasButton.setTextColor(getResources().getColor(R.color.md_theme_error));
-            alertCuidador("Alerta crítica: Se ha detectado gas en niveles peligrosos (" + gasConcentration + " ppm). Evacúe el área y tome medidas de seguridad inmediatas.");
+            gasAlert("Alerta crítica: Se ha detectado gas en niveles peligrosos (" + gasConcentration + " ppm). Evacúe el área y tome medidas de seguridad inmediatas.");
         }
     }
 
@@ -199,21 +200,28 @@ public class PerfilActivity extends AppCompatActivity {
     private void alertCuidador(String mensaje) {
         Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show();
     }
+    private void gasAlert(String mensaje) {
+        new AlertDialog.Builder(this)
+                .setTitle("Alerta")
+                .setMessage(mensaje)
+                .setPositiveButton(android.R.string.ok, null)
+                .show();
+    }
 
     public void TemperaturaAmbiente(String tipo) {
         Button type = findViewById(R.id.BTNtempType);
         float temperatura = 0;
         if (tipo == "Baja") {
-            temperatura = (float) (Math.random() * (15 - 10 + 1) + 10);
+            temperatura = (float) ((float) Math.round((Math.random() * (15 - 10 + 1) + 10) * 100.0) / 100.0);
             type.setText("BAJA");
             type.setTextColor(getResources().getColor(R.color.blue));
             alertCuidador("La temperatura ambiente es baja: " + temperatura+"°C");
         } else if (tipo == "Normal") {
-            temperatura = (float) (Math.random() * (25 - 15 + 1) + 15);
+            temperatura = (float) ((float) Math.round((Math.random() * (25 - 15 + 1) + 15) * 100.0) / 100.0);
             type.setText("NORMAL");
             type.setTextColor(getResources().getColor(R.color.green));
         } else if (tipo == "Alta") {
-            temperatura = (float) (Math.random() * (35 - 25 + 1) + 25);
+            temperatura = (float) ((float) Math.round((Math.random() * (35 - 25 + 1) + 25) * 100.0) / 100.0);
             type.setText("ALTA");
             type.setTextColor(getResources().getColor(R.color.md_theme_error));
             alertCuidador("La temperatura ambiente es alta: " + temperatura+"°C");
@@ -226,16 +234,16 @@ public class PerfilActivity extends AppCompatActivity {
         Button type = findViewById(R.id.BTNhumType);
         float humedad = 0;
         if (tipo == "Baja") {
-            humedad = (float) (Math.random() * (30 - 20 + 1) + 20);
+            humedad = (float) (Math.round((Math.random() * (30 - 20 + 1) + 20) * 100.0) / 100.0);
             type.setText("BAJA");
             type.setTextColor(getResources().getColor(R.color.blue));
             alertCuidador("La humedad ambiente es baja: " + humedad+"%");
         } else if (tipo == "Normal") {
-            humedad = (float) (Math.random() * (60 - 30 + 1) + 30);
+            humedad = (float) (Math.round((Math.random() * (60 - 30 + 1) + 30) * 100.0) / 100.0);
             type.setText("NORMAL");
             type.setTextColor(getResources().getColor(R.color.green));
         } else if (tipo == "Alta") {
-            humedad = (float) (Math.random() * (100 - 60 + 1) + 60);
+            humedad = (float) (Math.round((Math.random() * (100 - 60 + 1) + 60) * 100.0) / 100.0);
             type.setText("ALTA");
             type.setTextColor(getResources().getColor(R.color.md_theme_error));
             alertCuidador("La humedad ambiente es alta: " + humedad+"%");
