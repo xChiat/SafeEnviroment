@@ -159,11 +159,14 @@ public class secondActivity extends AppCompatActivity {
             ElderlyController.addMedicine(elderlyRut, fecha, descripcion);
 
             Elderly elderly = ElderlyController.findElderly(elderlyRut);
-            medicineList = elderly.getMedicina();
-            if (medicineList == null) {
-                medicineList = new ArrayList<>();
+            if (elderly != null) {
+                ArrayList<String> newMedicineList = elderly.getMedicina();
+                if (newMedicineList != null) {
+                    medicineList.clear();
+                    medicineList.addAll(newMedicineList);
+                    medicineAdapter.notifyDataSetChanged();
+                }
             }
-            medicineAdapter.notifyDataSetChanged();
         } else {
             System.out.println("Error: Campos vacíos");
         }

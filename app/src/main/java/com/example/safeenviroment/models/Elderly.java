@@ -3,16 +3,16 @@ package com.example.safeenviroment.models;
 import java.util.ArrayList;
 
 public class Elderly extends Person {
-    // Atributos
+    // Attributes
     private int age;
     private String emergencyNumber;
     private String medicalInfo;
     private String additionalInfo;
     private ArrayList<Family> family;
-    private ArrayList medicina;
+    private ArrayList<String> medicina;
 
     // Constructor
-    public Elderly(String rut, String name, int age, String emergencyNumber, String medicalInfo, String additionalInfo, ArrayList<Family> family, ArrayList medicina) {
+    public Elderly(String rut, String name, int age, String emergencyNumber, String medicalInfo, String additionalInfo, ArrayList<Family> family, ArrayList<String> medicina) {
         super(rut, name);
         this.age = age;
         this.emergencyNumber = emergencyNumber;
@@ -24,7 +24,7 @@ public class Elderly extends Person {
 
     public Elderly() {}
 
-    // Getters y Setters
+    // Getters and Setters
     public int getAge() {
         return age;
     }
@@ -65,11 +65,11 @@ public class Elderly extends Person {
         this.family = family;
     }
 
-    public ArrayList getMedicina() {
+    public ArrayList<String> getMedicina() {
         return medicina;
     }
 
-    public void setMedicina(ArrayList medicina) {
+    public void setMedicina(ArrayList<String> medicina) {
         this.medicina = medicina;
     }
 }

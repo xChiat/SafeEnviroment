@@ -7,12 +7,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import android.os.Handler;
 import android.os.Looper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ElderlyController {
     private static final ArrayList<Elderly> elderlyList = new ArrayList<>();
@@ -26,21 +28,14 @@ public class ElderlyController {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        elderlyList.clear();
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            Elderly elderly = snapshot.getValue(Elderly.class);
-                            if (elderly != null) {
-                                elderlyList.add(elderly);
-                            }
-                        }
-                        if (adapter != null) {
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
-                });
+                elderlyList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Elderly elderly = snapshot.getValue(Elderly.class);
+                    elderlyList.add(elderly);
+                }
+                if (adapter != null) {
+                    runOnUiThread(() -> adapter.notifyDataSetChanged());
+                }
             }
 
             @Override
@@ -60,43 +55,51 @@ public class ElderlyController {
 
     // CREATE
     public static String addElderly(String rut, String name, int age, String emergencyNumber, String medicalInfo, String additionalInfo) {
-        try {
-            Elderly e = new Elderly();
-            e.setRut(rut);
-            e.setName(name);
-            e.setAge(age);
-            e.setEmergencyNumber(emergencyNumber);
-            e.setMedicalInfo(medicalInfo);
-            e.setAdditionalInfo(additionalInfo);
-            elderlyList.add(e);
-            databaseReference.child(rut).setValue(e);
-            return "Adulto mayor agregado exitosamente";
-        } catch (Exception ex) {
-            return "Error: " + ex.getMessage();
-        }
+        Elderly elderly = new Elderly(rut, name, age, emergencyNumber, medicalInfo, additionalInfo, new ArrayList<>(), new ArrayList<>());
+        databaseReference.child(rut).setValue(elderly);
+        return rut;
     }
 
     public static void addFamily(String elderlyRut, Family family) {
-        Elderly elderly = findElderly(elderlyRut);
-        if (elderly != null) {
-            if (elderly.getFamily() == null) {
-                elderly.setFamily(new ArrayList<>());
+        DatabaseReference elderlyRef = databaseReference.child(elderlyRut).child("family");
+        elderlyRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                GenericTypeIndicator<ArrayList<Family>> t = new GenericTypeIndicator<ArrayList<Family>>() {};
+                ArrayList<Family> familyList = dataSnapshot.getValue(t);
+                if (familyList == null) {
+                    familyList = new ArrayList<>();
+                }
+                familyList.add(family);
+                elderlyRef.setValue(familyList);
             }
-            elderly.getFamily().add(family);
-            databaseReference.child(elderlyRut).child("family").child(family.getRut()).setValue(family);
-        }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle possible errors.
+            }
+        });
     }
 
     public static void addMedicine(String elderlyRut, String fecha, String descripcion) {
-        Elderly elderly = findElderly(elderlyRut);
-        if (elderly != null) {
-            if (elderly.getMedicina() == null) {
-                elderly.setMedicina(new ArrayList<>());
+        DatabaseReference medicineRef = databaseReference.child(elderlyRut).child("medicina");
+        medicineRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                GenericTypeIndicator<ArrayList<String>> t = new GenericTypeIndicator<ArrayList<String>>() {};
+                ArrayList<String> medicineList = dataSnapshot.getValue(t);
+                if (medicineList == null) {
+                    medicineList = new ArrayList<>();
+                }
+                medicineList.add("Horario: " + fecha + " - " + descripcion);
+                medicineRef.setValue(medicineList);
             }
-            String txt = "Horario: " + fecha + " - " + descripcion;
-            elderly.getMedicina().add(txt);
-            databaseReference.child(elderlyRut).child("medicina").setValue(elderly.getMedicina());
-        }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle possible errors.
+            }
+        });
     }
 
     // READ
@@ -105,9 +108,9 @@ public class ElderlyController {
     }
 
     public static Elderly findElderly(String rut) {
-        for (Elderly e : elderlyList) {
-            if (e.getRut().equalsIgnoreCase(rut)) {
-                return e;
+        for (Elderly elderly : elderlyList) {
+            if (elderly.getRut().equals(rut)) {
+                return elderly;
             }
         }
         return null;
@@ -115,27 +118,46 @@ public class ElderlyController {
 
     // UPDATE
     public static String editElderly(String rut, String name, int age, String emergencyNumber, String medicalInfo, String additionalInfo) {
-        Elderly e = findElderly(rut);
-        if (e != null) {
-            e.setName(name);
-            e.setAge(age);
-            e.setEmergencyNumber(emergencyNumber);
-            e.setMedicalInfo(medicalInfo);
-            e.setAdditionalInfo(additionalInfo);
-            databaseReference.child(rut).setValue(e);
-            return "Adulto mayor actualizado";
+        Elderly elderly = findElderly(rut);
+        if (elderly != null) {
+            elderly.setName(name);
+            elderly.setAge(age);
+            elderly.setEmergencyNumber(emergencyNumber);
+            elderly.setMedicalInfo(medicalInfo);
+            elderly.setAdditionalInfo(additionalInfo);
+            databaseReference.child(rut).setValue(elderly);
+            return rut;
         }
-        return "No existe el rut";
+        return null;
     }
 
     // DELETE
     public static boolean deleteElderly(String rut) {
-        Elderly e = findElderly(rut);
-        if (e != null) {
-            elderlyList.remove(e);
+        Elderly elderly = findElderly(rut);
+        if (elderly != null) {
             databaseReference.child(rut).removeValue();
+            elderlyList.remove(elderly);
             return true;
         }
         return false;
     }
 }
+
+/** Estructura datos firebase
+ * elderly
+ * |_12345678-9
+ * ...|_additionalInfo:"Ninguna"
+ * ...|_age:80
+ * ...|_emergencyNumber:"123456789"
+ * ...|_family
+ * ...|...|_2-2
+ * ...|......|_fono:"856"
+ * ...|......|_name:"pepe"
+ * ...|......|_relationship:"hijo"
+ * ...|......|_rut:"2-2"
+ * ...|_medicalInfo:"Diabetes"
+ * ...|_medicina
+ * ...|...|_0:"Horario: 6 - jwjsjdk"
+ * ...|_name:"Juan Perez"
+ * ...|_rut:"12345678-9"
+ */

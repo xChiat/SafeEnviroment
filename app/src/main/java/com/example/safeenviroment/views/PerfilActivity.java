@@ -99,6 +99,31 @@ public class PerfilActivity extends AppCompatActivity {
                 }
             }
         }
+
+        DatabaseReference deviceRef = FirebaseDatabase.getInstance().getReference("Dispositivo");
+        deviceRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                dispositivoList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Dispositivo dispositivo = snapshot.getValue(Dispositivo.class);
+                    if (dispositivo != null) {
+                        dispositivoList.add(dispositivo);
+                        if (dispositivo.getTipo().equals("estatico")) {
+                            updateStaticDeviceUI(dispositivo);
+                            checkGasAlert(dispositivo.getGas());
+                            checkTemperatureAlert(dispositivo.getTemperatura());
+                            checkHumidityAlert(dispositivo.getHumedad());
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle possible errors.
+            }
+        });
     }
 
     private void monitorStaticDevice(String name) {
