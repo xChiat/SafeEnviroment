@@ -4,21 +4,19 @@ public class Dispositivo {
     // Atributos
     private int id;
     private String tipo;
-    private float temperatura;
-    private float humedad;
+    private float Temperatura;
+    private float Humedad;
     private int bpm;
-    private float gasValue;
-    private int movimiento;
+    private float Gas;
 
     // Constructor
-    public Dispositivo(int id, String tipo, float temperatura, float humedad, int bpm, float gasValue, int movimiento) {
+    public Dispositivo(int id, String tipo, float Temperatura, float Humedad, int bpm, float Gas) {
         this.id = id;
         this.tipo = tipo;
-        this.temperatura = temperatura;
-        this.humedad = humedad;
+        this.Temperatura = Temperatura;
+        this.Humedad = Humedad;
         this.bpm = bpm;
-        this.gasValue = gasValue;
-        this.movimiento = movimiento;
+        this.Gas = Gas;
     }
     public Dispositivo() {}
 
@@ -40,19 +38,19 @@ public class Dispositivo {
     }
 
     public float getTemperatura() {
-        return temperatura;
+        return Temperatura;
     }
 
     public void setTemperatura(float temperatura) {
-        this.temperatura = temperatura;
+        this.Temperatura = temperatura;
     }
 
     public float getHumedad() {
-        return humedad;
+        return Humedad;
     }
 
     public void setHumedad(float humedad) {
-        this.humedad = humedad;
+        this.Humedad = humedad;
     }
 
     public int getBpm() {
@@ -63,19 +61,11 @@ public class Dispositivo {
         this.bpm = bpm;
     }
 
-    public float getGasValue() {
-        return gasValue;
+    public float getGas() {
+        return Gas;
     }
 
-    public void setGasValue(float gasValue) {
-        this.gasValue = gasValue;
-    }
-
-    public int getMovimiento() {
-        return movimiento;
-    }
-
-    public void setMovimiento(int movimiento) {
-        this.movimiento = movimiento;
+    public void setGas(float Gas) {
+        this.Gas = Gas;
     }
 }

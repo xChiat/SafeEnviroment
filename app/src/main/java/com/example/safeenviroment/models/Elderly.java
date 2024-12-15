@@ -9,24 +9,20 @@ public class Elderly extends Person {
     private String medicalInfo;
     private String additionalInfo;
     private ArrayList<Family> family;
-    private ArrayList<Dispositivo> dispositivo;
     private ArrayList medicina;
 
     // Constructor
-    public Elderly(String rut, String name, int age, String emergencyNumber, String medicalInfo, String additionalInfo, ArrayList<Family> family, ArrayList<Dispositivo> dispositivo, ArrayList medicina) {
+    public Elderly(String rut, String name, int age, String emergencyNumber, String medicalInfo, String additionalInfo, ArrayList<Family> family, ArrayList medicina) {
         super(rut, name);
         this.age = age;
         this.emergencyNumber = emergencyNumber;
         this.medicalInfo = medicalInfo;
         this.additionalInfo = additionalInfo;
         this.family = family;
-        this.dispositivo = dispositivo;
         this.medicina = medicina;
     }
 
-    public Elderly() {
-        this.dispositivo = new ArrayList<>();
-    }
+    public Elderly() {}
 
     // Getters y Setters
     public int getAge() {
@@ -67,14 +63,6 @@ public class Elderly extends Person {
 
     public void setFamily(ArrayList<Family> family) {
         this.family = family;
-    }
-
-    public ArrayList<Dispositivo> getDispositivo() {
-        return dispositivo;
-    }
-
-    public void setDispositivo(ArrayList<Dispositivo> dispositivo) {
-        this.dispositivo = dispositivo;
     }
 
     public ArrayList getMedicina() {

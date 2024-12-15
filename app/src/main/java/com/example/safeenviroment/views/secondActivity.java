@@ -21,6 +21,11 @@ import com.example.safeenviroment.controllers.MedicineAdapter;
 import com.example.safeenviroment.models.Elderly;
 import com.example.safeenviroment.models.Family;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -45,12 +50,12 @@ public class secondActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_second);
 
-        tvInfoMed = findViewById(R.id.InfoMed); // Ensure this is a TextView
-        tvInfoAdd = findViewById(R.id.InfoAd);  // Ensure this is a TextView
-        rutEditText = findViewById(R.id.rutET); // Ensure this is an EditText
-        relationEditText = findViewById(R.id.relationET); // Ensure this is an EditText
-        nameEditText = findViewById(R.id.nameET); // Ensure this is an EditText
-        numberEditText = findViewById(R.id.numberET); // Ensure this is an EditText
+        tvInfoMed = findViewById(R.id.InfoMed);
+        tvInfoAdd = findViewById(R.id.InfoAd);
+        rutEditText = findViewById(R.id.rutET);
+        relationEditText = findViewById(R.id.relationET);
+        nameEditText = findViewById(R.id.nameET);
+        numberEditText = findViewById(R.id.numberET);
         familyListView = findViewById(R.id.lvFamily);
         date = findViewById(R.id.Date);
         desc = findViewById(R.id.desc);
@@ -80,6 +85,40 @@ public class secondActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        // Add ChildEventListener to observe changes in the medicine list
+        assert elderlyRut != null;
+        DatabaseReference medicineRef = FirebaseDatabase.getInstance().getReference("elderly").child(elderlyRut).child("medicina");
+        medicineRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+                String newMedicine = dataSnapshot.getValue(String.class);
+                if (newMedicine != null) {
+                    medicineList.add(newMedicine);
+                    medicineAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+                // Handle child changed
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                // Handle child removed
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+                // Handle child moved
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle error
             }
         });
     }
@@ -115,13 +154,15 @@ public class secondActivity extends AppCompatActivity {
         if (areFieldsNotEmpty(date, desc)) {
             String fecha = date.getText().toString();
             String descripcion = desc.getText().toString();
-            Elderly elderly = ElderlyController.findElderly(getIntent().getStringExtra("elderly_rut"));
-            String txt = "Horario: " + fecha + " - " + descripcion;
+            String elderlyRut = getIntent().getStringExtra("elderly_rut");
+
+            ElderlyController.addMedicine(elderlyRut, fecha, descripcion);
+
+            Elderly elderly = ElderlyController.findElderly(elderlyRut);
+            medicineList = elderly.getMedicina();
             if (medicineList == null) {
                 medicineList = new ArrayList<>();
             }
-            medicineList.add(txt);
-            elderly.setMedicina(medicineList);
             medicineAdapter.notifyDataSetChanged();
         } else {
             System.out.println("Error: Campos vacíos");

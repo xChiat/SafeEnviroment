@@ -3,9 +3,7 @@ package com.example.safeenviroment.views;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +16,11 @@ import com.example.safeenviroment.controllers.ElderlyController;
 import com.example.safeenviroment.models.Dispositivo;
 import com.example.safeenviroment.models.Elderly;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -52,6 +55,31 @@ public class PerfilActivity extends AppCompatActivity {
             }
         });
 
+        Button btnDownBPM = findViewById(R.id.DownBPM);
+        Button btnNormalBPM = findViewById(R.id.NormalBPM);
+        Button btnUpBPM = findViewById(R.id.upBPM);
+
+        btnDownBPM.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pulsoCardiaco("baja");
+            }
+        });
+
+        btnNormalBPM.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pulsoCardiaco("normal");
+            }
+        });
+
+        btnUpBPM.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pulsoCardiaco("alta");
+            }
+        });
+
         if (elderly != null) {
             nameTextView.setText("NOMBRE: " + elderly.getName());
             rutTextView.setText("RUT: " + elderly.getRut());
@@ -59,93 +87,123 @@ public class PerfilActivity extends AppCompatActivity {
             emergencyNumberTextView.setText("NÚMERO DE EMERGENCIA: " + elderly.getEmergencyNumber());
             medicalInfoTextView.setText("INFORMACIÓN MÉDICA: " + elderly.getMedicalInfo());
 
-            gasDetected();
-
-            dispositivoList = elderly.getDispositivo();
-            if (dispositivoList == null) {
-                dispositivoList = new ArrayList<>();
-            }
-            DispositivoController.addDispositivo(1, "movil", 0, 0, 0, 0, 0);
-            DispositivoController.addDispositivo(2, "estatico", 0, 0, 0, 0, 0);
-            ElderlyController.addDispositivo(elderlyRut, DispositivoController.findDispositivo(1));
-            ElderlyController.addDispositivo(elderlyRut, DispositivoController.findDispositivo(2));
-
+            dispositivoList = DispositivoController.findAll();
             for (Dispositivo d : dispositivoList) {
-               if (d.getTipo().equals("movil")) {
-                   Button downBPMButton = findViewById(R.id.DownBPM);
-                   Button normalBPMButton = findViewById(R.id.NormalBPM);
-                   Button upBPMButton = findViewById(R.id.upBPM);
-
-                   downBPMButton.setOnClickListener(new View.OnClickListener() {
-                       @Override
-                       public void onClick(View v) {
-                           pulsoCardiaco("baja");
-                       }
-                   });
-
-                   normalBPMButton.setOnClickListener(new View.OnClickListener() {
-                       @Override
-                       public void onClick(View v) {
-                           pulsoCardiaco("normal");
-                       }
-                   });
-
-                   upBPMButton.setOnClickListener(new View.OnClickListener() {
-                       @Override
-                       public void onClick(View v) {
-                           pulsoCardiaco("alta");
-                       }
-                   });
-
-               } else if (d.getTipo().equals("estatico")) {
-                   // Temperatura
-                   Button DownTempButton = findViewById(R.id.BTNDownTemp);
-                   Button NormalTempButton = findViewById(R.id.BTNNormalTemp);
-                   Button UpTempButton = findViewById(R.id.BTNupTemp);
-
-                   DownTempButton.setOnClickListener(new View.OnClickListener() {
-                       @Override
-                       public void onClick(View v) {
-                           TemperaturaAmbiente("Baja");
-                       }
-                   });
-                   NormalTempButton.setOnClickListener(new View.OnClickListener() {
-                       @Override
-                       public void onClick(View v) {
-                           TemperaturaAmbiente("Normal");
-                       }
-                   });
-                   UpTempButton.setOnClickListener(new View.OnClickListener() {
-                       @Override
-                       public void onClick(View v) {
-                           TemperaturaAmbiente("Alta");
-                       }
-                   });
-                   // Humedad
-                   Button DownHumButton = findViewById(R.id.BTNDownH);
-                   Button NormalHumButton = findViewById(R.id.BTNNormalH);
-                   Button UpHumButton = findViewById(R.id.BTNupH);
-
-                   DownHumButton.setOnClickListener(new View.OnClickListener() {
-                       @Override
-                       public void onClick(View v) {
-                           HumedadAmbiente("Baja");
-                       }
-                   });
-                   NormalHumButton.setOnClickListener(new View.OnClickListener() {
-                       @Override
-                       public void onClick(View v) {
-                           HumedadAmbiente("Normal");
-                       }
-                   });
-                   UpHumButton.setOnClickListener(new View.OnClickListener() {
-                       @Override
-                       public void onClick(View v) {
-                           HumedadAmbiente("Alta");
-                       }
-                   });
-               }
+                if (d != null && d.getTipo() != null) {
+                    if (d.getTipo().equals("movil")) {
+                        // Simulate mobile device data
+                    } else if (d.getTipo().equals("estatico")) {
+                        System.out.println("Monitorizando dispositivo estático");
+                        monitorStaticDevice("estatico");
+                    }
+                }
             }
+        }
+    }
+
+    private void monitorStaticDevice(String name) {
+        DatabaseReference deviceRef = FirebaseDatabase.getInstance().getReference("Dispositivo").child(name);
+        deviceRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Dispositivo dispositivo = dataSnapshot.getValue(Dispositivo.class);
+                if (dispositivo != null) {
+                    updateStaticDeviceUI(dispositivo);
+                    checkGasAlert(dispositivo.getGas());
+                    checkTemperatureAlert(dispositivo.getTemperatura());
+                    checkHumidityAlert(dispositivo.getHumedad());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle possible errors.
+            }
+        });
+    }
+
+    private void updateStaticDeviceUI(Dispositivo dispositivo) {
+        TextView tempTextView = findViewById(R.id.tvTemp);
+        TextView humTextView = findViewById(R.id.TVHum);
+        tempTextView.setText(dispositivo.getTemperatura() + "°C");
+        humTextView.setText(dispositivo.getHumedad() + "%");
+    }
+
+    private void checkGasAlert(float gasValue) {
+        Button gasButton = findViewById(R.id.BTNgasDetected);
+        if (gasValue < 200) {
+            gasButton.setText("NO HAY GAS");
+            gasButton.setTextColor(getResources().getColor(R.color.green));
+        } else if (gasValue >= 200 && gasValue <= 1000) {
+            gasButton.setText("ADVERTENCIA: GAS DETECTADO");
+            gasButton.setTextColor(getResources().getColor(R.color.warning));
+            gasAlert("Advertencia: Se ha detectado gas en niveles moderados (" + gasValue + " ppm). Verifique la ventilación y las posibles fuentes de gas.");
+        } else if (gasValue > 1000) {
+            gasButton.setText("PELIGRO: GAS DETECTADO");
+            gasButton.setTextColor(getResources().getColor(R.color.md_theme_error));
+            gasAlert("Alerta crítica: Se ha detectado gas en niveles peligrosos (" + gasValue + " ppm). Evacúe el área y tome medidas de seguridad inmediatas.");
+        }
+    }
+
+    private void checkTemperatureAlert(float temperatura) {
+        Button type = findViewById(R.id.BTNtempType);
+        if (temperatura < 15) {
+            type.setText("TEMPERATURA BAJA");
+            type.setTextColor(getResources().getColor(R.color.blue));
+            tempAlert("La temperatura ambiente es baja: " + temperatura + "°C");
+        } else if (temperatura >= 15 && temperatura <= 25) {
+            type.setText("TEMPERATURA NORMAL");
+            type.setTextColor(getResources().getColor(R.color.green));
+        } else if (temperatura > 25) {
+            type.setText("TEMPERATURA ALTA");
+            type.setTextColor(getResources().getColor(R.color.md_theme_error));
+            tempAlert("La temperatura ambiente es alta: " + temperatura + "°C");
+        }
+    }
+
+    private void checkHumidityAlert(float humedad) {
+        Button type = findViewById(R.id.BTNhumType);
+        if (humedad < 30) {
+            type.setText("HUMEDAD BAJA");
+            type.setTextColor(getResources().getColor(R.color.blue));
+            humAlert("La humedad ambiente es baja: " + humedad + "%");
+        } else if (humedad >= 30 && humedad <= 60) {
+            type.setText("HUMEDAD NORMAL");
+            type.setTextColor(getResources().getColor(R.color.green));
+        } else if (humedad > 60) {
+            type.setText("HUMEDAD ALTA");
+            type.setTextColor(getResources().getColor(R.color.md_theme_error));
+            humAlert("La humedad ambiente es alta: " + humedad + "%");
+        }
+    }
+
+    private void gasAlert(String mensaje) {
+        if (!isFinishing()) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Alerta")
+                    .setMessage(mensaje)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show();
+        }
+    }
+
+    private void tempAlert(String mensaje) {
+        if (!isFinishing()) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Alerta")
+                    .setMessage(mensaje)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show();
+        }
+    }
+
+    private void humAlert(String mensaje) {
+        if (!isFinishing()) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Alerta")
+                    .setMessage(mensaje)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show();
         }
     }
 
@@ -155,27 +213,12 @@ public class PerfilActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    public void gasDetected() {
-        Button gasButton = findViewById(R.id.BTNgasDetected);
-        int gasConcentration = (int) (Math.random() * 1500); // Simulación de la lectura del sensor MQ-5
-
-        if (gasConcentration < 200) {
-            gasButton.setText("NO HAY GAS");
-            gasButton.setTextColor(getResources().getColor(R.color.green));
-        } else if (gasConcentration >= 200 && gasConcentration <= 1000) {
-            gasButton.setText("ADVERTENCIA: GAS DETECTADO");
-            gasButton.setTextColor(getResources().getColor(R.color.warning));
-            gasAlert("Advertencia: Se ha detectado gas en niveles moderados (" + gasConcentration + " ppm). Verifique la ventilación y las posibles fuentes de gas.");
-        } else if (gasConcentration > 1000) {
-            gasButton.setText("PELIGRO: GAS DETECTADO");
-            gasButton.setTextColor(getResources().getColor(R.color.md_theme_error));
-            gasAlert("Alerta crítica: Se ha detectado gas en niveles peligrosos (" + gasConcentration + " ppm). Evacúe el área y tome medidas de seguridad inmediatas.");
-        }
-    }
-
     public void pulsoCardiaco(String tipo) {
         Button type = findViewById(R.id.BTNbpmType);
         int pulso;
+        String elderlyRut = getIntent().getStringExtra("elderly_rut");
+        String deviceName = "movil"; // Assuming device ID is 1 for this example
+
         if (tipo.equals("normal")) {
             pulso = (int) (Math.random() * (90 - 60 + 1) + 60);
             type.setText(" NORMAL ");
@@ -194,63 +237,15 @@ public class PerfilActivity extends AppCompatActivity {
             throw new IllegalArgumentException("Tipo desconocido: " + tipo);
         }
 
+        // Push simulated BPM data to Firebase
+        DatabaseReference deviceRef = FirebaseDatabase.getInstance().getReference("Dispositivo").child(deviceName);
+        deviceRef.child("bpm").setValue(pulso);
+
         TextView bpmTextView = findViewById(R.id.BPM);
         bpmTextView.setText(String.valueOf(pulso));
     }
+
     private void alertCuidador(String mensaje) {
         Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show();
     }
-    private void gasAlert(String mensaje) {
-        new AlertDialog.Builder(this)
-                .setTitle("Alerta")
-                .setMessage(mensaje)
-                .setPositiveButton(android.R.string.ok, null)
-                .show();
-    }
-
-    public void TemperaturaAmbiente(String tipo) {
-        Button type = findViewById(R.id.BTNtempType);
-        float temperatura = 0;
-        if (tipo == "Baja") {
-            temperatura = (float) ((float) Math.round((Math.random() * (15 - 10 + 1) + 10) * 100.0) / 100.0);
-            type.setText("BAJA");
-            type.setTextColor(getResources().getColor(R.color.blue));
-            alertCuidador("La temperatura ambiente es baja: " + temperatura+"°C");
-        } else if (tipo == "Normal") {
-            temperatura = (float) ((float) Math.round((Math.random() * (25 - 15 + 1) + 15) * 100.0) / 100.0);
-            type.setText("NORMAL");
-            type.setTextColor(getResources().getColor(R.color.green));
-        } else if (tipo == "Alta") {
-            temperatura = (float) ((float) Math.round((Math.random() * (35 - 25 + 1) + 25) * 100.0) / 100.0);
-            type.setText("ALTA");
-            type.setTextColor(getResources().getColor(R.color.md_theme_error));
-            alertCuidador("La temperatura ambiente es alta: " + temperatura+"°C");
-        }
-
-        TextView tempTextView = findViewById(R.id.tvTemp);
-        tempTextView.setText(temperatura+"°C");
-    }
-    public void HumedadAmbiente(String tipo) {
-        Button type = findViewById(R.id.BTNhumType);
-        float humedad = 0;
-        if (tipo == "Baja") {
-            humedad = (float) (Math.round((Math.random() * (30 - 20 + 1) + 20) * 100.0) / 100.0);
-            type.setText("BAJA");
-            type.setTextColor(getResources().getColor(R.color.blue));
-            alertCuidador("La humedad ambiente es baja: " + humedad+"%");
-        } else if (tipo == "Normal") {
-            humedad = (float) (Math.round((Math.random() * (60 - 30 + 1) + 30) * 100.0) / 100.0);
-            type.setText("NORMAL");
-            type.setTextColor(getResources().getColor(R.color.green));
-        } else if (tipo == "Alta") {
-            humedad = (float) (Math.round((Math.random() * (100 - 60 + 1) + 60) * 100.0) / 100.0);
-            type.setText("ALTA");
-            type.setTextColor(getResources().getColor(R.color.md_theme_error));
-            alertCuidador("La humedad ambiente es alta: " + humedad+"%");
-        }
-
-        TextView humTextView = findViewById(R.id.TVHum);
-        humTextView.setText(humedad+"%");
-    }
 }
-
