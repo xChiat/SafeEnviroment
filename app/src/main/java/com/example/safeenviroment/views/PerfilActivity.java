@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class PerfilActivity extends AppCompatActivity {
 
@@ -55,31 +56,6 @@ public class PerfilActivity extends AppCompatActivity {
             }
         });
 
-        Button btnDownBPM = findViewById(R.id.DownBPM);
-        Button btnNormalBPM = findViewById(R.id.NormalBPM);
-        Button btnUpBPM = findViewById(R.id.upBPM);
-
-        btnDownBPM.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pulsoCardiaco("baja");
-            }
-        });
-
-        btnNormalBPM.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pulsoCardiaco("normal");
-            }
-        });
-
-        btnUpBPM.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pulsoCardiaco("alta");
-            }
-        });
-
         if (elderly != null) {
             nameTextView.setText("NOMBRE: " + elderly.getName());
             rutTextView.setText("RUT: " + elderly.getRut());
@@ -89,14 +65,7 @@ public class PerfilActivity extends AppCompatActivity {
 
             dispositivoList = DispositivoController.findAll();
             for (Dispositivo d : dispositivoList) {
-                if (d != null && d.getTipo() != null) {
-                    if (d.getTipo().equals("movil")) {
-                        // Simulate mobile device data
-                    } else if (d.getTipo().equals("estatico")) {
-                        System.out.println("Monitorizando dispositivo estático");
-                        monitorStaticDevice("estatico");
-                    }
-                }
+                monitorStaticDevice(d);
             }
         }
 
@@ -106,16 +75,14 @@ public class PerfilActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 dispositivoList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Dispositivo dispositivo = snapshot.getValue(Dispositivo.class);
+                    Map<String, Object> dispositivoMap = (Map<String, Object>) snapshot.getValue();
+                    Dispositivo dispositivo = DispositivoController.convertMapToDispositivo(dispositivoMap);
                     if (dispositivo != null) {
                         dispositivoList.add(dispositivo);
-                        if (dispositivo.getTipo().equals("estatico")) {
-                            updateStaticDeviceUI(dispositivo);
-                            checkGasAlert(dispositivo.getGas());
-                            checkTemperatureAlert(dispositivo.getTemperatura());
-                            checkHumidityAlert(dispositivo.getHumedad());
-                        }
                     }
+                }
+                for (Dispositivo d : dispositivoList) {
+                    updateStaticDeviceUI(d);
                 }
             }
 
@@ -126,18 +93,12 @@ public class PerfilActivity extends AppCompatActivity {
         });
     }
 
-    private void monitorStaticDevice(String name) {
-        DatabaseReference deviceRef = FirebaseDatabase.getInstance().getReference("Dispositivo").child(name);
+    private void monitorStaticDevice(Dispositivo dispositivo) {
+        DatabaseReference deviceRef = FirebaseDatabase.getInstance().getReference("Dispositivo").child(String.valueOf(dispositivo.getId()));
         deviceRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Dispositivo dispositivo = dataSnapshot.getValue(Dispositivo.class);
-                if (dispositivo != null) {
-                    updateStaticDeviceUI(dispositivo);
-                    checkGasAlert(dispositivo.getGas());
-                    checkTemperatureAlert(dispositivo.getTemperatura());
-                    checkHumidityAlert(dispositivo.getHumedad());
-                }
+                updateStaticDeviceUI(dispositivo);
             }
 
             @Override
@@ -150,19 +111,18 @@ public class PerfilActivity extends AppCompatActivity {
     private void updateStaticDeviceUI(Dispositivo dispositivo) {
         TextView tempTextView = findViewById(R.id.tvTemp);
         TextView humTextView = findViewById(R.id.TVHum);
-        tempTextView.setText(dispositivo.getTemperatura() + "°C");
-        humTextView.setText(dispositivo.getHumedad() + "%");
+        tempTextView.setText(DispositivoController.getLatestValueFromList(dispositivo.getTemperatura()) + "°C");
+        humTextView.setText(DispositivoController.getLatestValueFromList(dispositivo.getHumedad()) + "%");
     }
 
     private void checkGasAlert(float gasValue) {
         Button gasButton = findViewById(R.id.BTNgasDetected);
         if (gasValue < 200) {
-            gasButton.setText("NO HAY GAS");
+            gasButton.setText("GAS NORMAL");
             gasButton.setTextColor(getResources().getColor(R.color.green));
         } else if (gasValue >= 200 && gasValue <= 1000) {
-            gasButton.setText("ADVERTENCIA: GAS DETECTADO");
+            gasButton.setText("GAS DETECTADO");
             gasButton.setTextColor(getResources().getColor(R.color.warning));
-            gasAlert("Advertencia: Se ha detectado gas en niveles moderados (" + gasValue + " ppm). Verifique la ventilación y las posibles fuentes de gas.");
         } else if (gasValue > 1000) {
             gasButton.setText("PELIGRO: GAS DETECTADO");
             gasButton.setTextColor(getResources().getColor(R.color.md_theme_error));

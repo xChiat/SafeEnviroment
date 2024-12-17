@@ -1,16 +1,16 @@
 package com.example.safeenviroment.models;
 
+import java.util.ArrayList;
+
 public class Dispositivo {
-    // Atributos
     private int id;
     private String tipo;
-    private float Temperatura;
-    private float Humedad;
+    private ArrayList<Float> Temperatura;
+    private ArrayList<Float> Humedad;
+    private ArrayList<Float> Gas;
     private int bpm;
-    private float Gas;
 
-    // Constructor
-    public Dispositivo(int id, String tipo, float Temperatura, float Humedad, int bpm, float Gas) {
+    public Dispositivo(int id, String tipo, ArrayList<Float> Temperatura, ArrayList<Float> Humedad, int bpm, ArrayList<Float> Gas) {
         this.id = id;
         this.tipo = tipo;
         this.Temperatura = Temperatura;
@@ -18,9 +18,9 @@ public class Dispositivo {
         this.bpm = bpm;
         this.Gas = Gas;
     }
+
     public Dispositivo() {}
 
-    // Getters y Setters
     public int getId() {
         return id;
     }
@@ -37,20 +37,28 @@ public class Dispositivo {
         this.tipo = tipo;
     }
 
-    public float getTemperatura() {
+    public ArrayList<Float> getTemperatura() {
         return Temperatura;
     }
 
-    public void setTemperatura(float temperatura) {
+    public void setTemperatura(ArrayList<Float> temperatura) {
         this.Temperatura = temperatura;
     }
 
-    public float getHumedad() {
+    public ArrayList<Float> getHumedad() {
         return Humedad;
     }
 
-    public void setHumedad(float humedad) {
+    public void setHumedad(ArrayList<Float> humedad) {
         this.Humedad = humedad;
+    }
+
+    public ArrayList<Float> getGas() {
+        return Gas;
+    }
+
+    public void setGas(ArrayList<Float> gas) {
+        this.Gas = gas;
     }
 
     public int getBpm() {
@@ -59,13 +67,5 @@ public class Dispositivo {
 
     public void setBpm(int bpm) {
         this.bpm = bpm;
-    }
-
-    public float getGas() {
-        return Gas;
-    }
-
-    public void setGas(float Gas) {
-        this.Gas = Gas;
     }
 }
